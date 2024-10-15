@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Calculations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333333;
+            color: white;
+            padding: 10px 0;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            background-color: #333333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input, select {
+            padding: 10px;
+            font-size: 14px;
+            width: 80%;
+            margin: 10px 0;
+        }
+
+        #pigSpeedResult, #pigTimeResult, #liquidPigSpeedResult, #liquidPigTimeResult, #hydrotestVolumeResult, #nitrogenVolumeResult {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .calculator-screen {
+            display: none;
+        }
+
+        .footer-text {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        @media (max-width: 600px) {
+            button {
+                width: 90%;
+                margin: 0 auto;
+            }
+
+            input, select {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pipeline Calculations</h1>
+    </header>
+
+    <main>
+        <!-- Home screen section -->
+        <div id="homeScreen">
+            <h2>Select a Calculation:</h2>
+            <div class="button-container">
+                <button onclick="showScreen('gasFlowScreen')">Gas Flow to Run Pig</button>
+                <button onclick="showScreen('liquidFlowScreen')">Liquid Flow to Run Pig</button>
+                <button onclick="showScreen('hydrotestScreen')">Volume for Hydrotest</button>
+                <button onclick="showScreen('nitrogenVolumeScreen')">Nitrogen Volume</button>
+                <button onclick="showScreen('pigSpeedTrackerScreen')">Pig Speed (Weld Tracker)</button>
+            </div>
+
+            <p class="footer-text">Developed for use by Tip Windham, Mike Preuit, and Sarah Clarke. All rights reserved.</p>
+        </div>
+
+        <!-- Gas Flow Calculation Screen -->
+        <div id="gasFlowScreen" class="calculator-screen">
+            <h2>Gas Flow to Run Pig</h2>
+
+            <!-- Input Fields for Gas Flow -->
+            <label for="gasDiameter">Pipe Diameter (inches):</label>
+            <input type="number" id="gasDiameter" placeholder="Enter pipe diameter"><br><br>
+
+            <label for="pressure">Pressure (PSI):</label>
+            <input type="number" id="pressure" placeholder="Enter pressure in PSI"><br><br>
+
+            <label for="flowRateMMCF">Flow Rate (MMCF/day):</label>
+            <input type="number" id="flowRateMMCF" placeholder="Enter flow rate in MMCF"><br><br>
+
+            <label for="gasMiles">Miles of Pipeline:</label>
+            <input type="number" id="gasMiles" placeholder="Enter pipeline miles"><br><br>
+
+            <!-- Button to Calculate Pig Speed and Time -->
+            <button onclick="calculatePigSpeed()">Calculate Pig Speed and Time</button><br><br>
+
+            <!-- Result Display for Gas Flow -->
+            <p id="pigSpeedResult"></p>
+            <p id="pigTimeResult"></p>
+
+            <button onclick="goBack()">Back to Home</button>
+
+            <p class="footer-text">Developed for use by Tip Windham, Mike Preuit, and Sarah Clarke. All rights reserved.</p>
+        </div>
+
+        <!-- Liquid Flow Calculation Screen -->
+        <div id="liquidFlowScreen" class="calculator-screen">
+            <h2>Liquid Flow to Run Pig</h2>
+
+            <!-- Input Fields for Liquid Flow -->
+            <label for="productType">Product Type:</label>
+            <select id="productType">
+                <option value="ethane">Ethane</option>
+                <option value="ethylene">Ethylene</option>
+                <option value="propane">Propane</option>
+                <option value="propylene">Propylene</option>
+            </select><br><br>
+
+            <label for="liquidDiameter">Pipe Diameter (inches):</label>
+            <input type="number" id="liquidDiameter" placeholder="Enter pipe diameter"><br><br>
+
+            <label for="flowRate">Flow Rate (lbs/hr):</label>
+            <input type="number" id="flowRate" placeholder="Enter flow rate in lbs/hr"><br><br>
+
+            <label for="liquidMiles">Miles of Pipeline:</label>
+            <input type="number" id="liquidMiles" placeholder="Enter pipeline miles"><br><br>
+
+            <!-- Button to Calculate Pig Speed and Time -->
+            <button onclick="calculateLiquidFlow()">Calculate Pig Speed and Time</button><br><br>
+
+            <!-- Result Display for Liquid Flow -->
+            <p id="liquidPigSpeedResult"></p>
+            <p id="liquidPigTimeResult"></p>
+
+            <button onclick="goBack()">Back to Home</button>
+
+            <p class="footer-text">Developed for use by Tip Windham, Mike Preuit, and Sarah Clarke. All rights reserved.</p>
+        </div>
+
+        <!-- Hydrotest Volume Calculation Screen -->
+        <div id="hydrotestScreen" class="calculator-screen">
+            <h2>Volume for Hydrotest</h2>
+
+            <!-- Input Fields for Hydrotest -->
+            <label for="pipeLength">Pipe Length (miles):</label>
+            <input type="number" id="pipeLength" placeholder="Enter pipe length"><br><br>
+
+            <label for="hydroDiameter">Pipe Diameter (inches):</label>
+            <input type="number" id="hydroDiameter" placeholder="Enter pipe diameter"><br><br>
+
+            <label for="wallThickness">Wall Thickness (inches):</label>
+            <input type="number" id="wallThickness" placeholder="Enter wall thickness"><br><br>
+
+            <!-- Button to Calculate Hydrotest Volume -->
+            <button onclick="calculateHydrotestVolume()">Calculate Volume</button><br><br>
+
+            <!-- Result Display for Hydrotest Volume -->
+            <p id="hydrotestVolumeResult"></p>
+
+            <button onclick="goBack()">Back to Home</button>
+
+            <p class="footer-text">Developed for use by Tip Windham, Mike Preuit, and Sarah Clarke. All rights reserved.</p>
+        </div>
+
+        <!-- Nitrogen Volume Calculation Screen -->
+        <div id="nitrogenVolumeScreen" class="calculator-screen">
+            <h2>Nitrogen Volume Calculation</h2>
+
+            <!-- Input Fields for Nitrogen Volume -->
+            <label for="nitroDiameter">Pipe Diameter (inches):</label>
+            <input type="number" id="nitroDiameter" placeholder="Enter pipe diameter"><br><br>
+
+            <label for="nitroPSI">Pressure (PSI):</label>
+            <input type="number" id="nitroPSI" placeholder="Enter pressure in PSI"><br><br>
+
+            <label for="nitroMiles">Length (miles):</label>
+            <input type="number" id="nitroMiles" placeholder="Enter pipeline length in miles"><br><br>
+
+            <label for="nitroSpeed">Speed (mph):</label>
+            <input type="number" id="nitroSpeed" placeholder="Enter speed in mph"><br><br>
+
+            <label for="nitroPigRuns">Number of Pig Runs:</label>
+            <input type="number" id="nitroPigRuns" placeholder="Enter number of pig runs"><br><br>
+
+            <!-- Button to Calculate Nitrogen Volume -->
+            <button onclick="calculateNitrogenVolume()">Calculate Nitrogen Volume</button><br><br>
+
+            <!-- Result Display for Nitrogen Volume -->
+            <p id="nitrogenVolumeResult"></p>
+
+            <button onclick="goBack()">Back to Home</button>
+
+	    <p class="footer-text">Developed for use by Tip Windham, Mike Preuit, and Sarah Clarke. All rights reserved.</p>
+        </div>
+
+
+	<!-- Pig Speed (Weld Tracker) Calculation Screen -->
+	<div id="pigSpeedTrackerScreen" class="calculator-screen">
+    	    <h2>Pig Speed (Weld Tracker) Calculation</h2>
+
+            <!-- Input Fields for Pig Speed (Weld Tracker) -->
+   	    <label for="weldTime">Time in seconds:</label>
+   	    <input type="number" id="weldTime" placeholder="Enter time in seconds"><br><br>
+
+    	    <label for="jointLength">Joint Length (ft):</label>
+    	    <input type="number" id="jointLength" placeholder="Enter joint length in feet"><br><br>
+
+    	    <!-- Button to Calculate Pig Speed -->
+    	    <button onclick="calculatePigWeldSpeed()">Calculate Pig Speed</button><br><br>
+
+    	    <!-- Result Display for Pig Speed -->
+    	    <p id="pigWeldSpeedResult"></p>
+
+            <button onclick="goBack()">Back to Home</button>
+	    <p class="footer-text">Developed for use by Tip Windham, Mike Preuit, and Sarah Clarke. All rights reserved.</p>
+	</div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
