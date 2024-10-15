@@ -57,8 +57,8 @@ function calculateLiquidFlow() {
 
     // Product density lookup (lbs/ft^3)
     const densities = {
-        ethane: 30.07,
-        ethylene: 32.12,
+        ethane: 23,
+        ethylene: 17,
         propane: 31.67,
         propylene: 32.99
     };
