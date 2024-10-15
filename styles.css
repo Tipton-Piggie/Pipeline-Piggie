@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #007bff; /* You can change this if needed */
+    color: white;
+    padding: 10px 0;
+}
+
+main {
+    padding: 20px;
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 16px;
+    background-color: #333333; /* Dark Charcoal Gray */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #1a1a1a; /* Darker gray on hover */
+}
+
+input, select {
+    padding: 10px;
+    font-size: 14px;
+    width: 80%;
+    margin: 10px 0;
+    border: 2px solid #ced4da; /* Border color for input fields */
+    border-radius: 5px;
+}
+
+#pigSpeedResult, #pigTimeResult, #liquidPigSpeedResult, #liquidPigTimeResult, #hydrotestVolumeResult, #nitrogenVolumeResult {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff; /* Result text color */
+}
+
+.footer-text {
+    margin-top: 40px;
+    font-size: 14px;
+    color: #666; /* Footer text color */
+}
+
+@media (max-width: 600px) {
+    button {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    input, select {
+        width: 90%;
+    }
+}
